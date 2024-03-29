@@ -1,0 +1,41 @@
+<ng-template appAlert></ng-template>
+<div class="row" *ngIf="!isLoading; else Loading">
+  <div class="col-xs-12 col-md-6">
+    <!--    <div class="alert alert-danger" *ngIf="error">-->
+    <!--      <p>{{ error }}</p>-->
+    <!--    </div>-->
+    <!--    <app-alert [message]="error" *ngIf="!!error"></app-alert>-->
+    <h2>{{ isLogin ? "Login" : "Sign up" }}</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">E-Mail</label>
+        <input
+          class="form-control"
+          id="email" type="email"
+          formControlName="email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          class="form-control"
+          id="password"
+          type="password"
+          formControlName="password">
+      </div>
+      <div>
+
+        <button class="btn btn-primary" type="submit" [disabled]="form.invalid">{{ isLogin ? "Login" : "Sign up" }}
+        </button>
+        |
+        <button class="btn btn-default" type="button" (click)="onSwitchMode()">Go
+          to {{ !isLogin ? "Login" : "Sign up" }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<ng-template #Loading>
+  <div class="col-xs-12 col-md-12" style="display: flex; justify-content: center;">
+    <app-loading-spinner style=""></app-loading-spinner>
+  </div>
+</ng-template>

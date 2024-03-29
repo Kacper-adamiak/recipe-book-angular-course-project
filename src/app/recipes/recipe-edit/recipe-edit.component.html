@@ -1,0 +1,66 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div style="display: flex; justify-content:space-between;">
+    <h1>{{ editMode ? 'Edit' : 'Create' }} Recipe</h1>
+    <button
+      style="height: fit-content; align-self: center"
+      class="btn btn-primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >Save
+    </button>
+  </div>
+  <label for="name">Name</label>
+  <input class="form-control" type="text" id="name" formControlName="name">
+  <p class="text-danger" *ngIf="form.get('name').invalid && form.get('name').touched">Name is required!</p>
+
+  <label for="description">Description</label>
+  <input class="form-control" type="text" id="description" formControlName="description">
+  <p class="text-danger" *ngIf="form.get('description').invalid && form.get('description').touched">Description is
+    required!</p>
+
+  <label for="imagePath">Image URL</label>
+  <input class="form-control" type="text" id="imagePath" formControlName="imagePath">
+  <p class="text-danger" *ngIf="form.get('imagePath').invalid && form.get('imagePath').touched">Image URL is
+    required!</p>
+  <img *ngIf="form.get('imagePath').valid" [src]="form.get('imagePath').value" alt="Recipe Image" width="300px"
+       height="300px">
+  <h3>Ingredients:</h3>
+  <button class="btn btn-default" type="button" (click)="addIngredient()">Add Ingredient</button>
+  <div style="display: block; " formArrayName="ingredients">
+    <div class="col-lg-12" *ngFor="let ingredientControl of getIngredientsControls(); let i = index">
+      <div style="display: flex" [formGroupName]="i">
+        <div class="col-lg-6">
+          <!--          <label for="ingredientName">Name</label>-->
+          <input
+            class="form-control"
+            type="text"
+            name="ingredientName"
+            id="ingredientName"
+            formControlName="name">
+          <p class="text-danger" *ngIf="ingredientControl.get('name').invalid && ingredientControl.get('name').touched">
+            Ingredient name is required!</p>
+
+        </div>
+        <div class="col-lg-4">
+          <!--          <label for="ingredientAmount">Amount</label>-->
+          <input
+            class="form-control"
+            type="number"
+            name="ingredientAmount"
+            id="ingredientAmount"
+            formControlName="amount">
+          <p class="text-danger"
+             *ngIf="ingredientControl.get('amount').invalid && ingredientControl.get('amount').touched">Ingredient
+            amount is required!</p>
+
+        </div>
+
+        <div class="col-lg-2" style="align-self: flex-end;">
+          <button type="button" class="btn btn-danger" style="height: 100%; width: 100%" (click)="deleteIngredient(i)">
+            X
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
